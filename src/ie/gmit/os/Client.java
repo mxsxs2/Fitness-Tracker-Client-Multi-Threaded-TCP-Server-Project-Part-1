@@ -79,6 +79,13 @@ public class Client {
 									// Result
 									this.message = (String) in.readObject();
 									System.out.println(this.message);
+								//If delete record
+								}else if (this.message.compareToIgnoreCase("4") == 0) {
+									//Record id
+									this.doSingleCommunication();
+									// Result
+									this.message = (String) in.readObject();
+									System.out.println(this.message);
 								}
 								// Log out if -1 is entered
 							} while (!this.message.equals("-1"));
