@@ -40,59 +40,63 @@ public class Client {
 					this.doSingleCommunication();
 
 					if (this.message.compareToIgnoreCase("1") == 0) {
-						//PPS number
+						// PPS number
 						this.doSingleCommunication();
-						//Password
+						// Password
 						this.doSingleCommunication();
-						//Result
+						// Result
 						this.message = (String) in.readObject();
 						System.out.println(this.message);
-						//If the login was successful
-						if(this.message.contains("Welcome")) {
+						// If the login was successful
+						if (this.message.contains("Welcome")) {
 							// Draw the logged in menu
 							do {
-								//Logged in menu
+								// Logged in menu
 								this.doSingleCommunication();
 
 								// If fitness record adding
 								if (this.message.compareToIgnoreCase("1") == 0) {
-									//Fitness mode
+									// Fitness mode
 									this.doSingleCommunication();
-									//Duration
+									// Duration
 									this.doSingleCommunication();
-									//Result
+									// Result
+									this.message = (String) in.readObject();
+									System.out.println(this.message);
+									// If meal record adding
+								} else if (this.message.compareToIgnoreCase("2") == 0) {
+									// Meal type
+									this.doSingleCommunication();
+									// Description
+									this.doSingleCommunication();
+									// Result
 									this.message = (String) in.readObject();
 									System.out.println(this.message);
 								}
 								// Log out if -1 is entered
 							} while (!this.message.equals("-1"));
-							
-							
-							//Logged in menu
-							this.doSingleCommunication();
 						}
-						
 
 					} else if (this.message.compareToIgnoreCase("2") == 0) {
-						//PPS Number
+						// PPS Number
 						this.doSingleCommunication();
-						//Password
+						// Password
 						this.doSingleCommunication();
-						//Name
+						// Name
 						this.doSingleCommunication();
-						//Address
+						// Address
 						this.doSingleCommunication();
-						//Age
+						// Age
 						this.doSingleCommunication();
-						//Weight
+						// Weight
 						this.doSingleCommunication();
-						//Height
+						// Height
 						this.doSingleCommunication();
-						//Registration result
+						// Registration result
 						this.message = (String) in.readObject();
 						System.out.println(message);
 					} else if (this.message.compareToIgnoreCase("3") == 0) {
-						this.message="bye";
+						this.message = "bye";
 					}
 
 				} catch (ClassNotFoundException classNot) {
@@ -145,8 +149,10 @@ public class Client {
 		this.message = (String) this.in.readObject();
 		// Write to console
 		System.out.println(this.message);
+		//Reset the console input
+		this.stdin=new Scanner(System.in);
 		// Read message from console
-		this.message = this.stdin.next();
+		this.message = this.stdin.nextLine();
 		// Send to server
 		sendMessage(this.message);
 	}
