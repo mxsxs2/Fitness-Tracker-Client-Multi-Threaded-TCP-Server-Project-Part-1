@@ -21,40 +21,59 @@ public class Client {
 		this.stdin = new Scanner(System.in);
 		System.out.println("Please Enter your IP Address");
 		// Get the ip address to connect to
-		String ipaddress = stdin.next();
+		String ipaddress = this.stdin.next();
 		// Try to open the socket
 		try (Socket requestSocket = new Socket(ipaddress, this.port);) {
 
 			System.out.println("Connected to " + ipaddress + " in port 2004");
 			// Create new output stream to socket
-			out = new ObjectOutputStream(requestSocket.getOutputStream());
+			this.out = new ObjectOutputStream(requestSocket.getOutputStream());
 			// Flush the output stream
-			out.flush();
+			this.out.flush();
 			// Create new input strem from socket
-			in = new ObjectInputStream(requestSocket.getInputStream());
+			this.in = new ObjectInputStream(requestSocket.getInputStream());
 
 			// Run until the client says bye
 			do {
 				try {
-					// Read a message from the server
-					message = (String) in.readObject();
-					// Write out server message
-					System.out.println(message);
-					// Read a message from the client
-					message = stdin.next();
-					// Send the message to the server
-					sendMessage(message);
+					// Menu
+					this.doSingleCommunication();
 
-					if (message.compareToIgnoreCase("1") == 0) {
+					if (this.message.compareToIgnoreCase("1") == 0) {
 						//PPS number
 						this.doSingleCommunication();
 						//Password
 						this.doSingleCommunication();
 						//Result
-						message = (String) in.readObject();
-						System.out.println(message);
+						this.message = (String) in.readObject();
+						System.out.println(this.message);
+						//If the login was successful
+						if(this.message.contains("Welcome")) {
+							// Draw the logged in menu
+							do {
+								//Logged in menu
+								this.doSingleCommunication();
 
-					} else if (message.compareToIgnoreCase("2") == 0) {
+								// If fitness record adding
+								if (this.message.compareToIgnoreCase("1") == 0) {
+									//Fitness mode
+									this.doSingleCommunication();
+									//Duration
+									this.doSingleCommunication();
+									//Result
+									this.message = (String) in.readObject();
+									System.out.println(this.message);
+								}
+								// Log out if -1 is entered
+							} while (!this.message.equals("-1"));
+							
+							
+							//Logged in menu
+							this.doSingleCommunication();
+						}
+						
+
+					} else if (this.message.compareToIgnoreCase("2") == 0) {
 						//PPS Number
 						this.doSingleCommunication();
 						//Password
@@ -70,15 +89,17 @@ public class Client {
 						//Height
 						this.doSingleCommunication();
 						//Registration result
-						message = (String) in.readObject();
+						this.message = (String) in.readObject();
 						System.out.println(message);
+					} else if (this.message.compareToIgnoreCase("3") == 0) {
+						this.message="bye";
 					}
 
 				} catch (ClassNotFoundException classNot) {
 					System.err.println("data received in unknown format");
 				}
 				// Exit if the client says bye
-			} while (!message.equals("bye"));
+			} while (!this.message.equals("bye"));
 		} catch (UnknownHostException unknownHost) {
 			// Notify the user if the host is not found
 			System.err.println("You are trying to connect to an unknown host!");
@@ -87,9 +108,9 @@ public class Client {
 		} finally {
 			// Close the streams and the scanner
 			try {
-				in.close();
-				out.close();
-				stdin.close();
+				this.in.close();
+				this.out.close();
+				this.stdin.close();
 			} catch (IOException ioException) {
 				ioException.printStackTrace();
 			}
@@ -104,9 +125,9 @@ public class Client {
 	private void sendMessage(String msg) {
 		try {
 			// Send the message
-			out.writeObject(msg);
+			this.out.writeObject(msg);
 			// Flush the stream
-			out.flush();
+			this.out.flush();
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
 		}
@@ -121,12 +142,12 @@ public class Client {
 	 */
 	private void doSingleCommunication() throws ClassNotFoundException, IOException {
 		// Read message from server
-		message = (String) in.readObject();
+		this.message = (String) this.in.readObject();
 		// Write to console
-		System.out.println(message);
+		System.out.println(this.message);
 		// Read message from console
-		message = stdin.next();
+		this.message = this.stdin.next();
 		// Send to server
-		sendMessage(message);
+		sendMessage(this.message);
 	}
 }
