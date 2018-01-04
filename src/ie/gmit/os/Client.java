@@ -72,6 +72,13 @@ public class Client {
 									// Result
 									this.message = (String) in.readObject();
 									System.out.println(this.message);
+									//If record viewing option was selected	
+								}else if (this.message.compareToIgnoreCase("3") == 0) {
+									//Record type
+									this.doSingleCommunication();
+									// Result
+									this.message = (String) in.readObject();
+									System.out.println(this.message);
 								}
 								// Log out if -1 is entered
 							} while (!this.message.equals("-1"));
