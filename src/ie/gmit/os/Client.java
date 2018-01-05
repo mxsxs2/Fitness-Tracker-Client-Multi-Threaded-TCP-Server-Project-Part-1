@@ -86,6 +86,11 @@ public class Client {
 									// Result
 									this.message = (String) in.readObject();
 									System.out.println(this.message);
+								//If user details
+								} else if (this.message.compareToIgnoreCase("5") == 0) {
+									// Get Details
+									this.message = (String) in.readObject();
+									System.out.println(this.message);
 								}
 								// Log out if -1 is entered
 							} while (!this.message.equals("-1"));
