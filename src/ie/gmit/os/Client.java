@@ -19,7 +19,7 @@ public class Client {
 	public void run() {
 		// Create a new scanner to read from console
 		this.stdin = new Scanner(System.in);
-		System.out.println("Please Enter your IP Address");
+		System.out.println("Please Enter the server's ip address to connect to.");
 		// Get the ip address to connect to
 		String ipaddress = this.stdin.next();
 		// Try to open the socket
